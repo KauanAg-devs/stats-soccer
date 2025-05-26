@@ -23,7 +23,7 @@ type QuizParam = {
 };
 
 export default async function QuizPage({ params }: QuizParam) {
-  const { id, category } = await params;
+  const { id, category } = params;
 
   if (!(category in database)) return notFound();
 
