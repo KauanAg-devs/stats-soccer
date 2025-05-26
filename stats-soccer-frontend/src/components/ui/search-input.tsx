@@ -13,7 +13,7 @@ export default function SearchInput({ placeholder, onSearch }: SearchInputUI) {
   const [inputValue, setInputValue] = useState("");
 
   return (
-    <div className="relative w-96 md:w-[35rem] h-9 mt-5">
+    <div className="relative w-96 md:w-[35rem] h-11 mt-5">
 
     <Input
       placeholder={placeholder}
@@ -30,7 +30,7 @@ export default function SearchInput({ placeholder, onSearch }: SearchInputUI) {
       onClick={() => onSearch(inputValue)}
       className="absolute right-2 top-1/2 -translate-y-1/2 text-zinc-400"
     >
-      <Search className="h-4 w-4" />
+      <Search className="h-6 w-6" />
     </button>
 
 

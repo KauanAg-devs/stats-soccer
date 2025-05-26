@@ -14,7 +14,6 @@ const database = {
 
 type Database = typeof database;
 type Category = keyof Database;
-type Id<C extends Category> = keyof Database[C];
 
 type QuizParam = {
   params: {

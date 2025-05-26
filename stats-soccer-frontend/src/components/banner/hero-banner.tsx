@@ -1,11 +1,16 @@
 export default function HeroBanner() {
   return (
     <div className="relative isolate overflow-hidden bg-[#0d1b0d] py-24 sm:py-32 min-w-full">
-      <img
-        src="https://diamondfootball.com/news/football-pitch-2.jpg?w1200;h797;"
-        alt=""
-        className="absolute inset-0 -z-10 w-full h-full object-cover object-center opacity-60"
-      />
+     <img 
+       src="/images/football-pitch-2.webp"
+       width="1200"
+       height="797"
+       fetchPriority="high"
+       decoding="async"
+       alt=""
+       className="absolute inset-0 -z-10 w-full h-full object-cover object-center opacity-60" 
+     />
+
 
       <div className="absolute inset-0 -z-10 bg-black/70" />
 
