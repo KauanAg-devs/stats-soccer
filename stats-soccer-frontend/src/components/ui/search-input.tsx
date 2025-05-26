@@ -20,7 +20,9 @@ export default function SearchInput({ placeholder, onSearch }: SearchInputUI) {
       value={inputValue}
       onChange={(e) => setInputValue(e.target.value)}
       onKeyDown={(e) => {
-        e.key === 'Enter' && onSearch(inputValue);
+        if (e.key === 'Enter') {
+          onSearch(inputValue);
+        }
       }}
       className="w-full pr-8 bg-zinc-900 text-zinc-100 placeholder-zinc-500 border border-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
     />
