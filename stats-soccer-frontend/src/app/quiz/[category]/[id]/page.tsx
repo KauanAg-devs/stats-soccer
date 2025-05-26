@@ -4,40 +4,36 @@ import { notFound } from "next/navigation";
 const database = {
   fifaworldcup: {
     "1970": {
-      "title": "Fifa World Cup 1970 Quiz",
-      "questions": [
-        {"question": "who won the 1970 World Cup?", options: ['Argentina', 'Brazil', 'Italia', 'Germany']}
-      ]
+      title: "Fifa World Cup 1970 Quiz",
+      questions: [
+        {
+          question: "who won the 1970 World Cup?",
+          options: ["Argentina", "Brazil", "Italia", "Germany"],
+        },
+      ],
     },
   },
 } as const;
 
-type Database = typeof database;
-type Category = keyof Database;
+type QuizParams = Promise<{
+  category: string;
+  id: string;
+}>;
 
-type QuizParam = {
-  params: {
-    category: string;
-    id: string;
-  }
-};
-
-export default async function QuizPage({ params }: QuizParam) {
-  const { id, category } = params;
+export default async function QuizPage({ params }: {params: QuizParams}) {
+  const { category, id } = await params;
 
   if (!(category in database)) return notFound();
 
-  const categoryData = database[category as Category];
+  const categoryData = database[category as keyof typeof database];
 
   if (!(id in categoryData)) return notFound();
 
-  const quiz = categoryData[id as keyof typeof categoryData] as unknown as QuizProps['quiz'];
+  const quiz = categoryData[id as keyof typeof categoryData] as unknown as QuizProps["quiz"];
 
   return (
     <main className="p-8">
-      <Quiz
-        quiz={quiz}
-      />
+      <Quiz quiz={quiz} />
     </main>
   );
 }
