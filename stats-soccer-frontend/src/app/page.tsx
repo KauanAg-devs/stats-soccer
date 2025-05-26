@@ -6,6 +6,7 @@ import QuizGrid from "@/components/quiz/quiz-grid";
 import RegisterMessage from "@/components/register/register-message";
 import SearchInput from "@/components/ui/search-input";
 import HeroBanner from "@/components/banner/hero-banner";
+import Nav from "@/components/nav/nav";
 
 export default function Home() {
   const [search, setSearch] = useState("");
@@ -27,9 +28,9 @@ export default function Home() {
       registerMessage="Register to use all of our services – and be part of our community →" 
     />
 
-    <HeroBanner />
-
     <Header>
+      <Nav/>
+      <HeroBanner/>
       <SearchInput
         placeholder="What are you thinking about?"
         onSearch={setSearch}

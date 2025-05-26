@@ -5,8 +5,10 @@ type HeaderUI = {
 }
 export default function Header({ children }: HeaderUI){
     return (
-        <header className="flex justify-center items-center h-10 pl-5 pr-5 pt-5">
+        <header className="flex flex-col justify-center items-center h-auto">
+
             {children}
+            
         </header>
     )
 }

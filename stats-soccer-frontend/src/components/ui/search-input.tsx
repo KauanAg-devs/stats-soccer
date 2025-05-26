@@ -13,7 +13,7 @@ export default function SearchInput({ placeholder, onSearch }: SearchInputUI) {
   const [inputValue, setInputValue] = useState("");
 
   return (
-    <div className="relative w-96 md:w-[35rem] h-9">
+    <div className="relative w-96 md:w-[35rem] h-9 mt-5">
 
     <Input
       placeholder={placeholder}
