@@ -24,7 +24,7 @@ export default function SearchInput({ placeholder, onSearch }: SearchInputUI) {
           onSearch(inputValue);
         }
       }}
-      className="w-full pr-8 bg-zinc-900 text-zinc-100 placeholder-zinc-500 border border-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+      className="w-full pr-8 placeholder-zinc-500 border border-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
     />
 
 

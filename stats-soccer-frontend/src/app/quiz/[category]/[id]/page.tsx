@@ -9,6 +9,7 @@ const database = {
         {
           question: "who won the 1970 World Cup?",
           options: ["Argentina", "Brazil", "Italia", "Germany"],
+          correct: 1
         },
       ],
     },

@@ -1,4 +1,10 @@
-export default function HeroBanner() {
+type HeroBannerUI = {
+  cupsCovered: number, 
+  totalQuestions: number,
+  topScore: string
+}
+
+export default function HeroBanner({ cupsCovered, totalQuestions, topScore}: HeroBannerUI) {
   return (
     <div className="relative isolate overflow-hidden bg-[#0d1b0d] py-24 sm:py-32 min-w-full">
      <img 
@@ -12,7 +18,7 @@ export default function HeroBanner() {
      />
 
 
-      <div className="absolute inset-0 -z-10 bg-black/70" />
+      <div className="absolute inset-0 -z-10 bg-black/10" />
 
       <div
         className="hidden sm:absolute sm:-top-10 sm:right-1/2 sm:-z-10 sm:mr-10 sm:block sm:transform-gpu sm:blur-3xl"
@@ -57,19 +63,15 @@ export default function HeroBanner() {
           <dl className="mt-16 grid grid-cols-1 gap-8 sm:mt-20 sm:grid-cols-2 lg:grid-cols-4 text-zinc-200">
             <div className="flex flex-col-reverse gap-1">
               <dt className="text-base">Cups Covered</dt>
-              <dd className="text-4xl font-semibold tracking-tight text-gray-100">21</dd>
+              <dd className="text-4xl font-semibold tracking-tight text-gray-100">{cupsCovered}</dd>
             </div>
             <div className="flex flex-col-reverse gap-1">
               <dt className="text-base">Total Questions</dt>
-              <dd className="text-4xl font-semibold tracking-tight text-gray-100">150+</dd>
-            </div>
-            <div className="flex flex-col-reverse gap-1">
-              <dt className="text-base">Avg. Completion</dt>
-              <dd className="text-4xl font-semibold tracking-tight text-gray-100">85%</dd>
+              <dd className="text-4xl font-semibold tracking-tight text-gray-100">{totalQuestions}</dd>
             </div>
             <div className="flex flex-col-reverse gap-1">
               <dt className="text-base">Top Score</dt>
-              <dd className="text-4xl font-semibold tracking-tight text-gray-100">100%</dd>
+              <dd className="text-4xl font-semibold tracking-tight text-gray-100">{topScore}</dd>
             </div>
           </dl>
         </div>

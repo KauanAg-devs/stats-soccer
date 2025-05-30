@@ -10,7 +10,8 @@ import Nav from "@/components/nav/nav";
 
 export default function Home() {
   const [search, setSearch] = useState("");
-
+  
+  const MockedData = {cupsCovered: 4, topScore: '100%', totalQuestions: 4}
   const quizzes = [
     { name: '1966 World Cup Quiz', img: 'https://upload.wikimedia.org/wikipedia/en/e/e9/1966_FIFA_World_Cup.png', altImg: '1966 Cup', redirect: '/quiz/fifaworldcup/1966' },
     { name: '1970 World Cup Quiz', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/1970_FIFA_World_Cup.svg/250px-1970_FIFA_World_Cup.svg.png', altImg: '1970 Cup', redirect: '/quiz/fifaworldcup/1970' },
@@ -18,6 +19,8 @@ export default function Home() {
     { name: '1958 World Cup Quiz', img: 'https://upload.wikimedia.org/wikipedia/en/thumb/e/e5/1958_FIFA_World_Cup.jpg/250px-1958_FIFA_World_Cup.jpg', altImg: '1958 Cup', redirect: '/quiz/fifaworldcup/1958' },
   ];
 
+  const {cupsCovered, topScore, totalQuestions} = MockedData
+  
   const filteredQuizzes = !search ? quizzes : quizzes.filter((quiz) =>
     quiz.name.toLowerCase().includes(search.toLowerCase())
   );
@@ -30,7 +33,11 @@ export default function Home() {
 
     <Header>
       <Nav/>
-      <HeroBanner/>
+      <HeroBanner
+        cupsCovered={cupsCovered}
+        topScore={topScore}
+        totalQuestions={totalQuestions}
+      />
       <SearchInput
         placeholder="What are you thinking about?"
         onSearch={setSearch}
