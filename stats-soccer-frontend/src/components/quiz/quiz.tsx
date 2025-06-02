@@ -1,6 +1,6 @@
 'use client';
 
-import { Key, ReactElement, ReactNode, ReactPortal, JSXElementConstructor, useState } from 'react';
+import { useState } from 'react';
 import { CheckCircle, XCircle, RotateCcw, Trophy, Target } from 'lucide-react';
 
 type QuestionUI = {
