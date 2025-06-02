@@ -27,7 +27,7 @@ const QuizGrid: React.FC<QuizGridProps> = ({ title, quizzes }) => {
           className="w-full h-full object-cover transition-opacity group-hover:opacity-75"
         />
       </div>
-      <h3 className="mt-2 text-center text-sm text-lime-400 font-medium">{quiz.name}</h3>
+      <h3 className="mt-2 text-center text-sm text-zinc-800 font-medium">{quiz.name}</h3>
     </a>
   ))}
 </div>

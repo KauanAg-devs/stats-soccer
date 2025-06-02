@@ -11,6 +11,11 @@ const database = {
           options: ["Argentina", "Brazil", "Italia", "Germany"],
           correct: 1
         },
+          {
+          question: "who won the 1970 World Cup?",
+          options: ["Argentina", "Brazil", "Italia", "Germany"],
+          correct: 1
+        },
       ],
     },
   },
@@ -33,7 +38,8 @@ export default async function QuizPage({ params }: {params: QuizParams}) {
   const quiz = categoryData[id as keyof typeof categoryData] as unknown as QuizProps["quiz"];
 
   return (
-    <main className="p-8">
+    <main className="relative min-h-screen p-8">
+      <div className="absolute inset-0 bg-[url(/images/football-pitch-2.webp)] bg-cover object-center opacity-50"/>
       <Quiz quiz={quiz} />
     </main>
   );

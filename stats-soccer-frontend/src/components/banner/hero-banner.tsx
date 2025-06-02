@@ -6,7 +6,7 @@ type HeroBannerUI = {
 
 export default function HeroBanner({ cupsCovered, totalQuestions, topScore}: HeroBannerUI) {
   return (
-    <div className="relative isolate overflow-hidden bg-[#0d1b0d] py-24 sm:py-32 min-w-full">
+    <div className="relative isolate overflow-hidden bg-[#0d1b0d] py-24 sm:py-32 min-w-full shadow-lg shadow-slate-300 shadow-b-5">
      <img 
        src="/images/football-pitch-2.webp"
        width="1200"
