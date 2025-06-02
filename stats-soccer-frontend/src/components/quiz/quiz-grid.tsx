@@ -1,3 +1,4 @@
+import Image from "next/image"
 import React from "react"
 
 export type QuizUI = {
@@ -21,7 +22,7 @@ const QuizGrid: React.FC<QuizGridProps> = ({ title, quizzes }) => {
   {quizzes.map((quiz) => (
     <a href={quiz.redirect} className="group" key={quiz.name}>
       <div className="w-full max-w-[160px] mx-auto aspect-[3/4] rounded-md overflow-hidden bg-gray-200 sm:max-w-none">
-        <img
+        <Image
           src={quiz.img}
           alt={quiz.altImg || quiz.name}
           className="w-full h-full object-cover transition-opacity group-hover:opacity-75"

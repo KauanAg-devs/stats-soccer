@@ -168,7 +168,7 @@ export default function QuizApp({ quiz }: QuizProps) {
           </div>
 
           <div className="space-y-3 sm:space-y-4 mb-6">
-            {questions[currentQuestion].options.map((option: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined, index: Key | null | undefined) => (
+            {questions[currentQuestion].options.map((option: string, index: number) => (
               <button
                 key={index}
                 onClick={() => handleAnswerSelect(index as number)}
