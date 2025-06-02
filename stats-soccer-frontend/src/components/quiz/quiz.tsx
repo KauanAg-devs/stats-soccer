@@ -1,9 +1,21 @@
 'use client';
 
-import { useState } from 'react';
+import { Key, ReactElement, ReactNode, ReactPortal, JSXElementConstructor, useState } from 'react';
 import { CheckCircle, XCircle, RotateCcw, Trophy, Target } from 'lucide-react';
 
-// ... (omiti a parte que não precisa ser alterada para foco na responsividade)
+type QuestionUI = {
+  question: string,
+  correct: number,
+  options: string[],
+  explanation: string,
+}
+
+export type QuizProps = {
+ quiz: {
+  questions: QuestionUI[],
+  title: string
+ }
+}
 
 export default function QuizApp({ quiz }: QuizProps) {
   const questions = quiz.questions;
@@ -37,7 +49,7 @@ export default function QuizApp({ quiz }: QuizProps) {
 
   const calculateScore = () => {
     let correctAnswers = 0;
-    questions.forEach((question, index) => {
+    questions.forEach((question: QuestionUI, index: number) => {
       if (selectedAnswers[index] === question.correct) {
         correctAnswers++;
       }
@@ -80,7 +92,7 @@ export default function QuizApp({ quiz }: QuizProps) {
             </div>
 
             <div className="space-y-4 mb-6">
-              {questions.map((question, index) => {
+              {questions.map((question: QuestionUI, index: number) => {
                 const userAnswer = selectedAnswers[index];
                 const isCorrect = userAnswer === question.correct;
                 return (
@@ -156,10 +168,10 @@ export default function QuizApp({ quiz }: QuizProps) {
           </div>
 
           <div className="space-y-3 sm:space-y-4 mb-6">
-            {questions[currentQuestion].options.map((option, index) => (
+            {questions[currentQuestion].options.map((option: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined, index: Key | null | undefined) => (
               <button
                 key={index}
-                onClick={() => handleAnswerSelect(index)}
+                onClick={() => handleAnswerSelect(index as number)}
                 className={`w-full text-left p-4 sm:p-5 rounded-xl border-2 transition-all duration-300 hover:border-green-400 hover:bg-green-50 hover:shadow-md ${
                   selectedAnswers[currentQuestion] === index
                     ? 'border-green-500 bg-green-100 text-green-800 shadow-lg'
