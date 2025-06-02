@@ -26,6 +26,8 @@ const QuizGrid: React.FC<QuizGridProps> = ({ title, quizzes }) => {
           src={quiz.img}
           alt={quiz.altImg || quiz.name}
           className="w-full h-full object-cover transition-opacity group-hover:opacity-75"
+          width={2000}
+          height={2000}
         />
       </div>
       <h3 className="mt-2 text-center text-sm text-zinc-800 font-medium">{quiz.name}</h3>
