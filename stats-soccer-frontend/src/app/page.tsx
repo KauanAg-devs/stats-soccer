@@ -32,7 +32,7 @@ export default function Home() {
     />
 
     <Header>
-      <Nav/>
+      {/*<Nav/>*/}
       <HeroBanner
         cupsCovered={cupsCovered}
         topScore={topScore}
