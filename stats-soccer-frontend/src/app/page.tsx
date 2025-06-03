@@ -6,7 +6,6 @@ import QuizGrid from "@/components/quiz/quiz-grid";
 import RegisterMessage from "@/components/register/register-message";
 import SearchInput from "@/components/ui/search-input";
 import HeroBanner from "@/components/banner/hero-banner";
-import Nav from "@/components/nav/nav";
 
 export default function Home() {
   const [search, setSearch] = useState("");
