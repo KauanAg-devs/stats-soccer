@@ -13,17 +13,24 @@ export default function Home() {
   
 
 
-useEffect(() => {
-   /*axios.get(`https://automatic-yodel-v4v9qj9r474hxj55-8000.app.github.dev/quizes/filter/${search}`)
-     .then(response =>{
-       console.log(response)
-     })*/
+  useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`http://localhost:8000/api/quizes/filter/${search}`);
+      console.log('Status:', response.status);
+      console.log('Headers:', [...response.headers.entries()]);
 
-    axios.get('https://automatic-yodel-v4v9qj9r474hxj55-8000.app.github.dev/api')
-     .then(res => {
-      console.log(res);
-     })
+      const data = await response.json();  
+      console.log('Data:', data);
+    } catch (error) {
+      console.error('Erro ao buscar dados:', error);
+    }
+  };
+
+  fetchData();
 }, []);
+
+
 
   const MockedData = {cupsCovered: 4, topScore: '100%', totalQuestions: 4}
   const quizzes = [

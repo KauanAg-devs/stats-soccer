@@ -10,18 +10,24 @@ Route::get('/', function(){
     return response()->json(['message' =>'Server is okay', 200]);
 });
 
-Route::get('/quizes/filter/{name}', function (string $name) {
+Route::get('/quizes/filter/{name?}', function (Request $request, $name = '') {
+    $query = Quiz::with('questions.options');
 
-    $quiz = Quiz::with('questions.options')
-        ->where('name', 'like', "%{$name}%")
-        ->first();
+    if (trim($name) !== '') {
+        $query->where('name', 'like', "%{$name}%");
+        $quiz = $query->first();
 
-    if (!$quiz) {
-        return response()->json(['error' => 'Quiz not found'], 404);
+        if (!$quiz) {
+            return response()->json(['error' => 'Quiz not found'], 404);
+        }
+
+        return response()->json($quiz);
+    } else {
+        $quizzes = $query->limit(4)->get();
+        return response()->json($quizzes);
     }
-
-    return response()->json($quiz);
 });
+
 
 Route::post('/quizes/filterQuizes', function (Request $request) {
     return response()->json(['message' => 'filter quizzes']);
