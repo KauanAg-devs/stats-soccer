@@ -7,45 +7,35 @@ import RegisterMessage from "@/components/register/register-message";
 import SearchInput from "@/components/ui/search-input";
 import HeroBanner from "@/components/banner/hero-banner";
 import axios from "axios";
+import { Quiz } from "@/@types/quiz";
 
 export default function Home() {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
+  const [quizzes, setQuizzes] = useState<Quiz[]>([])
   
-
+  const handleGetQuizzes = async (search: string)=> {
+    const response = await axios(`http://localhost:8000/api/quizes/filter/${search}`); 
+    setQuizzes(response.data)
+  }
 
   useEffect(() => {
-  const fetchData = async () => {
+    const fetchData = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/api/quizes/filter/${search}`);
-      console.log('Status:', response.status);
-      console.log('Headers:', [...response.headers.entries()]);
-
-      const data = await response.json();  
-      console.log('Data:', data);
+      await handleGetQuizzes('')
     } catch (error) {
       console.error('Erro ao buscar dados:', error);
     }
-  };
+    };
 
-  fetchData();
-}, []);
+    fetchData();
+  }, []);
 
 
 
   const MockedData = {cupsCovered: 4, topScore: '100%', totalQuestions: 4}
-  const quizzes = [
-    { name: '1966 World Cup Quiz', img: 'https://upload.wikimedia.org/wikipedia/en/e/e9/1966_FIFA_World_Cup.png', altImg: '1966 Cup', redirect: '/quiz/fifaworldcup/1966' },
-    { name: '1970 World Cup Quiz', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/1970_FIFA_World_Cup.svg/250px-1970_FIFA_World_Cup.svg.png', altImg: '1970 Cup', redirect: '/quiz/fifaworldcup/1970' },
-    { name: '2018 World Cup Quiz', img: 'https://upload.wikimedia.org/wikipedia/en/thumb/6/67/2018_FIFA_World_Cup.svg/281px-2018_FIFA_World_Cup.svg.png?20150814170355', altImg: '2018 Cup', redirect: '/quiz/fifaworldcup/2018' },
-    { name: '1958 World Cup Quiz', img: 'https://upload.wikimedia.org/wikipedia/en/thumb/e/e5/1958_FIFA_World_Cup.jpg/250px-1958_FIFA_World_Cup.jpg', altImg: '1958 Cup', redirect: '/quiz/fifaworldcup/1958' },
-  ];
 
   const {cupsCovered, topScore, totalQuestions} = MockedData
-  
-  const filteredQuizzes = !search ? quizzes : quizzes.filter((quiz) =>
-    quiz.name.toLowerCase().includes(search.toLowerCase())
-  );
-
+ 
   return (
     <>    
     <RegisterMessage 
@@ -62,11 +52,12 @@ export default function Home() {
       <SearchInput
         placeholder="What are you thinking about?"
         onSearch={setSearch}
+        handleGetQuizzes={handleGetQuizzes}
       />
     </Header>
 
     <QuizGrid
-      quizzes={filteredQuizzes}
+      quizzes={quizzes!}
       title=""
     />
     </>

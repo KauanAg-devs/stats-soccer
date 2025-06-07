@@ -21,7 +21,7 @@ Route::get('/quizes/filter/{name?}', function (Request $request, $name = '') {
             return response()->json(['error' => 'Quiz not found'], 404);
         }
 
-        return response()->json($quiz);
+        return response()->json([$quiz]);
     } else {
         $quizzes = $query->limit(4)->get();
         return response()->json($quizzes);

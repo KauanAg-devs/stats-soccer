@@ -7,9 +7,10 @@ import { Input } from "./input";
 type SearchInputUI = {
   placeholder: string;
   onSearch: (value: string) => void;
+  handleGetQuizzes: (search?: string) => Promise<void>
 };
 
-export default function SearchInput({ placeholder, onSearch }: SearchInputUI) {
+export default function SearchInput({ placeholder, onSearch, handleGetQuizzes }: SearchInputUI) {
   const [inputValue, setInputValue] = useState("");
 
   return (
@@ -29,7 +30,7 @@ export default function SearchInput({ placeholder, onSearch }: SearchInputUI) {
 
 
     <button
-      onClick={() => onSearch(inputValue)}
+      onClick={() => handleGetQuizzes(inputValue)}
       className="absolute right-2 top-1/2 -translate-y-1/2 text-zinc-400"
     >
       <Search className="h-6 w-6" />

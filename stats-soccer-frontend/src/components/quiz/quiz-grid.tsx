@@ -1,16 +1,11 @@
+import { Quiz } from "@/@types/quiz"
 import Image from "next/image"
 import React from "react"
 
-export type QuizUI = {
-  name: string
-  img: string
-  altImg?: string
-  redirect: string
-}
 
 type QuizGridProps = {
   title: string
-  quizzes: QuizUI[]
+  quizzes: Quiz[]
 }
 
 const QuizGrid: React.FC<QuizGridProps> = ({ title, quizzes }) => {
@@ -20,11 +15,11 @@ const QuizGrid: React.FC<QuizGridProps> = ({ title, quizzes }) => {
         <h2 className="text-2xl font-bold tracking-tight text-gray-900 mb-6">{title}</h2>
   <div className="grid grid-cols-2 gap-4 md:gap-16 sm:grid-cols-3 lg:grid-cols-4">
   {quizzes.map((quiz) => (
-    <a href={quiz.redirect} className="group" key={quiz.name}>
+    <a href={`quiz/${quiz.category}/${quiz.year}`} className="group" key={quiz.name}>
       <div className="w-full max-w-[160px] mx-auto aspect-[3/4] rounded-md overflow-hidden bg-gray-200 sm:max-w-none">
         <Image
           src={quiz.img}
-          alt={quiz.altImg || quiz.name}
+          alt={quiz.name}
           className="w-full h-full object-cover transition-opacity group-hover:opacity-75"
           width={2000}
           height={2000}
