@@ -6,11 +6,10 @@ import { Input } from "./input";
 
 type SearchInputUI = {
   placeholder: string;
-  onSearch: (value: string) => void;
   handleGetQuizzes: (search: string) => Promise<void>
 };
 
-export default function SearchInput({ placeholder, onSearch, handleGetQuizzes }: SearchInputUI) {
+export default function SearchInput({ placeholder, handleGetQuizzes }: SearchInputUI) {
   const [inputValue, setInputValue] = useState("");
 
   return (
@@ -21,9 +20,7 @@ export default function SearchInput({ placeholder, onSearch, handleGetQuizzes }:
       value={inputValue}
       onChange={(e) => setInputValue(e.target.value)}
       onKeyDown={(e) => {
-        if (e.key === 'Enter') {
-          onSearch(inputValue);
-        }
+        if (e.key === 'Enter') handleGetQuizzes(inputValue);
       }}
       className="w-full pr-8 placeholder-zinc-500 border border-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
     />
