@@ -7,7 +7,7 @@ import { Input } from "./input";
 type SearchInputUI = {
   placeholder: string;
   onSearch: (value: string) => void;
-  handleGetQuizzes: (search?: string) => Promise<void>
+  handleGetQuizzes: (search: string) => Promise<void>
 };
 
 export default function SearchInput({ placeholder, onSearch, handleGetQuizzes }: SearchInputUI) {

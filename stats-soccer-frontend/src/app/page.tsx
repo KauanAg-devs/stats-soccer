@@ -13,8 +13,10 @@ export default function Home() {
   const [search, setSearch] = useState('');
   const [quizzes, setQuizzes] = useState<Quiz[]>([])
   
-  const handleGetQuizzes = async (search: string)=> {
-    const response = await axios(`http://localhost:8000/api/quizes/filter/${search}`); 
+  const handleGetQuizzes = async (search: string = '')=> {
+    console.log(search)
+    const response = await axios(`${process.env.NEXT_PUBLIC_BACKEND_URI}/api/quizzes/filter/${search}`); 
+    console.log(response.data)
     setQuizzes(response.data)
   }
 

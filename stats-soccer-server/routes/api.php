@@ -10,7 +10,7 @@ Route::get('/', function(){
     return response()->json(['message' =>'Server is okay', 200]);
 });
 
-Route::get('/quizes/filter/{name?}', function (Request $request, $name = '') {
+Route::get('/quizzes/filter/{name?}', function (Request $request, $name = '') {
     $query = Quiz::with('questions.options');
 
     if (trim($name) !== '') {
