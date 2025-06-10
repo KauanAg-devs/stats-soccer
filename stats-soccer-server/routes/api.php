@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\QuizzesController;
 
 use App\Models\Quiz;
 
@@ -10,23 +11,7 @@ Route::get('/', function(){
     return response()->json(['message' =>'Server is okay', 200]);
 });
 
-Route::get('/quizzes/filter/{name?}', function (Request $request, $name = '') {
-    $query = Quiz::with('questions.options');
-
-    if (trim($name) !== '') {
-        $query->where('name', 'like', "%{$name}%");
-        $quiz = $query->first();
-
-        if (!$quiz) {
-            return response()->json(['error' => 'Quiz not found'], 404);
-        }
-
-        return response()->json([$quiz]);
-    } else {
-        $quizzes = $query->limit(4)->get();
-        return response()->json($quizzes);
-    }
-});
+Route::get('/quizzes/filter/{name?}', [QuizzesController::class, 'filter']);
 
 
 Route::post('/quizes/filterQuizes', function (Request $request) {
