@@ -12,12 +12,4 @@ Route::get('/', function(){
 });
 
 Route::get('/quizzes/filter/{name?}', [QuizzesController::class, 'filter']);
-
-
-Route::post('/quizes/filterQuizes', function (Request $request) {
-    return response()->json(['message' => 'filter quizzes']);
-});
-
-Route::post('/quizes/create', function (Request $request) {
-    return response()->json(['message' => 'create quiz']);
-});
+Route::post('/quizzes/store', [QuizzesController::class, 'store']);
