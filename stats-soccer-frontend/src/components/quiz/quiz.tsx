@@ -32,11 +32,10 @@ export type QuizProps = {
 };
 
 type QuizAppUI = {
-  category: string;
   id: string;
 };
 
-export default function QuizApp({ id, category }: QuizAppUI) {
+export default function QuizApp({ id }: QuizAppUI) {
   const [quiz, setQuiz] = useState<QuizProps['quiz'] | null>(null);
   const [loading, setLoading] = useState(true);
   const [currentQuestion, setCurrentQuestion] = useState(0);

@@ -1,5 +1,4 @@
-import Quiz, { QuizProps } from "@/components/quiz/quiz";
-import { notFound } from "next/navigation";
+import Quiz from "@/components/quiz/quiz";
 
 
 type QuizParams = Promise<{
