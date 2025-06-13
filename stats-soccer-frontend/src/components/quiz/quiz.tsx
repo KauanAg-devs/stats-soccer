@@ -1,34 +1,81 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CheckCircle, XCircle, RotateCcw, Trophy, Target } from 'lucide-react';
+import axios from 'axios';
+
+type Option = {
+  id: number;
+  question_id: number;
+  text: string;
+  index: number;
+  created_at: string;
+  updated_at: string;
+};
 
 type QuestionUI = {
-  question: string,
-  correct: number,
-  options: string[],
-  explanation: string,
-}
+  id: number;
+  quiz_id: number;
+  question: string;
+  correct_option: number;
+  created_at: string;
+  updated_at: string;
+  options: Option[];
+  explanation?: string;
+};
 
 export type QuizProps = {
- quiz: {
-  questions: QuestionUI[],
-  title: string
- }
-}
+  quiz: {
+    questions: QuestionUI[];
+    title: string;
+  };
+};
 
-export default function QuizApp({ quiz }: QuizProps) {
-  const questions = quiz.questions;
+type QuizAppUI = {
+  category: string;
+  id: string;
+};
 
+export default function QuizApp({ id, category }: QuizAppUI) {
+  const [quiz, setQuiz] = useState<QuizProps['quiz'] | null>(null);
+  const [loading, setLoading] = useState(true);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<{ [key: number]: number }>({});
   const [showResults, setShowResults] = useState(false);
   const [score, setScore] = useState(0);
 
+  const handleGetQuiz = async () => {
+    try {
+      const response = await axios(
+        `${process.env.NEXT_PUBLIC_BACKEND_URI}/api/quizzes/filter/id/${id}`
+      );
+      setQuiz(response.data);
+    } catch (err) {
+      console.error('Erro ao buscar dados:', err);
+      setQuiz(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleGetQuiz();
+  }, []);
+
+  if (loading) {
+    return <div className="text-center py-10">Carregando quiz...</div>;
+  }
+
+  if (!quiz) {
+    return <div className="text-center text-red-500 py-10">Quiz não encontrado.</div>;
+  }
+
+  const questions = quiz.questions;
+
   const handleAnswerSelect = (answerIndex: number) => {
     setSelectedAnswers({
       ...selectedAnswers,
-      [currentQuestion]: answerIndex
+      [currentQuestion]: answerIndex,
     });
   };
 
@@ -49,8 +96,8 @@ export default function QuizApp({ quiz }: QuizProps) {
 
   const calculateScore = () => {
     let correctAnswers = 0;
-    questions.forEach((question: QuestionUI, index: number) => {
-      if (selectedAnswers[index] === question.correct) {
+    questions.forEach((question, index) => {
+      if (selectedAnswers[index] === question.correct_option) {
         correctAnswers++;
       }
     });
@@ -84,7 +131,9 @@ export default function QuizApp({ quiz }: QuizProps) {
             </div>
 
             <div className="text-center mb-6 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 sm:p-6 border-2 border-green-200">
-              <div className="text-5xl sm:text-7xl font-bold mb-2 text-green-600">{score}/{questions.length}</div>
+              <div className="text-5xl sm:text-7xl font-bold mb-2 text-green-600">
+                {score}/{questions.length}
+              </div>
               <div className="text-lg sm:text-2xl font-semibold text-slate-700 mb-1">
                 {Math.round((score / questions.length) * 100)}% de APROVEITAMENTO
               </div>
@@ -92,22 +141,40 @@ export default function QuizApp({ quiz }: QuizProps) {
             </div>
 
             <div className="space-y-4 mb-6">
-              {questions.map((question: QuestionUI, index: number) => {
+              {questions.map((question, index) => {
                 const userAnswer = selectedAnswers[index];
-                const isCorrect = userAnswer === question.correct;
+                const isCorrect = userAnswer === question.correct_option;
                 return (
-                  <div key={index} className={`border-2 rounded-xl p-3 sm:p-4 ${isCorrect ? 'border-green-300 bg-green-50' : 'border-red-300 bg-red-50'}`}>
+                  <div
+                    key={question.id}
+                    className={`border-2 rounded-xl p-3 sm:p-4 ${
+                      isCorrect ? 'border-green-300 bg-green-50' : 'border-red-300 bg-red-50'
+                    }`}
+                  >
                     <div className="flex flex-col sm:flex-row gap-3">
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isCorrect ? 'bg-green-500' : 'bg-red-500'}`}>
-                        {isCorrect ? <CheckCircle className="w-5 h-5 text-white" /> : <XCircle className="w-5 h-5 text-white" />}
+                      <div
+                        className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                          isCorrect ? 'bg-green-500' : 'bg-red-500'
+                        }`}
+                      >
+                        {isCorrect ? (
+                          <CheckCircle className="w-5 h-5 text-white" />
+                        ) : (
+                          <XCircle className="w-5 h-5 text-white" />
+                        )}
                       </div>
                       <div className="flex-1">
-                        <h4 className="font-bold text-slate-800 mb-2 text-sm sm:text-base">{question.question}</h4>
+                        <h4 className="font-bold text-slate-800 mb-2 text-sm sm:text-base">
+                          {question.question}
+                        </h4>
                         <p className="text-xs sm:text-sm text-slate-600 bg-white/70 rounded-lg p-2">
-                          <span className="font-bold">⚽ Sua resposta:</span> {question.options[userAnswer] || 'Não respondido'}
+                          <span className="font-bold">⚽ Sua resposta:</span>{' '}
+                          {userAnswer !== undefined
+                            ? question.options[userAnswer]?.text || 'Não respondido'
+                            : 'Não respondido'}
                         </p>
                         <p className="text-xs sm:text-sm text-green-700 bg-green-100 rounded-lg p-2 font-semibold">
-                          🎯 Resposta correta: {question.options[question.correct]}
+                          🎯 Resposta correta: {question.options[question.correct_option].text}
                         </p>
                         {question.explanation && (
                           <p className="text-xs sm:text-sm text-slate-600 bg-blue-50 rounded-lg p-2 italic">
@@ -150,7 +217,9 @@ export default function QuizApp({ quiz }: QuizProps) {
             </div>
             <div className="text-right bg-white/10 rounded-xl p-2 sm:p-3 text-white text-xs sm:text-sm">
               <div>PERGUNTA</div>
-              <div className="text-base sm:text-2xl font-bold">{currentQuestion + 1}/{questions.length}</div>
+              <div className="text-base sm:text-2xl font-bold">
+                {currentQuestion + 1}/{questions.length}
+              </div>
             </div>
           </div>
 
@@ -158,20 +227,22 @@ export default function QuizApp({ quiz }: QuizProps) {
             <div
               className="bg-gradient-to-r from-green-500 to-emerald-500 h-full transition-all duration-500 ease-out"
               style={{
-                width: `${((currentQuestion + 1) / questions.length) * 100}%`
+                width: `${((currentQuestion + 1) / questions.length) * 100}%`,
               }}
             ></div>
           </div>
 
           <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 sm:p-6 mb-6 border-2 border-green-200">
-            <h2 className="text-base sm:text-xl font-bold text-slate-800 leading-relaxed">⚽ {questions[currentQuestion].question}</h2>
+            <h2 className="text-base sm:text-xl font-bold text-slate-800 leading-relaxed">
+              ⚽ {questions[currentQuestion].question}
+            </h2>
           </div>
 
           <div className="space-y-3 sm:space-y-4 mb-6">
-            {questions[currentQuestion].options.map((option: string, index: number) => (
+            {questions[currentQuestion].options.map((option, index) => (
               <button
-                key={index}
-                onClick={() => handleAnswerSelect(index as number)}
+                key={option.id}
+                onClick={() => handleAnswerSelect(index)}
                 className={`w-full text-left p-4 sm:p-5 rounded-xl border-2 transition-all duration-300 hover:border-green-400 hover:bg-green-50 hover:shadow-md ${
                   selectedAnswers[currentQuestion] === index
                     ? 'border-green-500 bg-green-100 text-green-800 shadow-lg'
@@ -179,36 +250,37 @@ export default function QuizApp({ quiz }: QuizProps) {
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 flex items-center justify-center ${
-                    selectedAnswers[currentQuestion] === index
-                      ? 'border-green-500 bg-green-500'
-                      : 'border-slate-300'
-                  }`}>
+                  <div
+                    className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 flex items-center justify-center ${
+                      selectedAnswers[currentQuestion] === index
+                        ? 'border-green-500 bg-green-500'
+                        : 'border-slate-300'
+                    }`}
+                  >
                     {selectedAnswers[currentQuestion] === index && (
                       <div className="w-2 h-2 sm:w-3 sm:h-3 bg-white rounded-full"></div>
                     )}
                   </div>
-                  <span className="text-xs sm:text-base font-semibold">{option}</span>
+                  <span className="text-xs sm:text-base font-semibold">{option.text}</span>
                 </div>
               </button>
             ))}
           </div>
 
-          <div className="flex flex-col sm:flex-row justify-between gap-4">
+          <div className="flex justify-between gap-2">
             <button
               onClick={handlePrevious}
               disabled={currentQuestion === 0}
-              className="w-full sm:w-auto px-4 py-3 rounded-xl font-bold border-2 border-slate-300 text-slate-600 bg-white shadow hover:border-slate-400 hover:bg-slate-50 transition disabled:opacity-50"
+              className="flex-1 bg-white border-2 border-slate-200 rounded-xl text-sm sm:text-base font-semibold text-slate-700 py-4 px-3 sm:px-6 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
             >
-              ← VOLTAR
+              Voltar
             </button>
-
             <button
               onClick={handleNext}
               disabled={selectedAnswers[currentQuestion] === undefined}
-              className="w-full sm:w-auto px-6 py-3 rounded-xl font-bold bg-gradient-to-r from-green-600 via-green-500 to-green-600 text-white shadow border-2 border-green-400 hover:from-green-700 hover:via-green-600 hover:to-green-700 transition hover:scale-105 disabled:opacity-50"
+              className="flex-1 bg-gradient-to-r from-green-600 via-green-500 to-green-600 text-white font-bold py-4 rounded-xl text-sm sm:text-base hover:from-green-700 hover:via-green-600 hover:to-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
             >
-              {currentQuestion === questions.length - 1 ? '🏁 FINALIZAR' : 'PRÓXIMA →'}
+              {currentQuestion === questions.length - 1 ? 'Finalizar' : 'Próxima'}
             </button>
           </div>
         </div>

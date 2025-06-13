@@ -25,6 +25,21 @@ class QuizzesController extends Controller
       return response()->json([$quiz]);
     }
 
+    public function filterById(Request $request, $id = ''){
+    if (trim($id) === '') {
+        return response()->json(['error' => 'Quiz not found'], 404);
+    }
+
+    $quiz = Quiz::with('questions.options')->where('id', $id)->first();
+
+    if (!$quiz) {
+        return response()->json(['error' => 'Quiz not found'], 404);
+    }
+
+    return response()->json($quiz);
+   }
+
+
     public function store(Request $request){
     $validated = $request->validate([
         'name' => 'required|string',

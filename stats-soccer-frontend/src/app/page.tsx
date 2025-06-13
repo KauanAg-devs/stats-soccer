@@ -11,7 +11,7 @@ import { Quiz } from "@/@types/quiz";
 
 export default function Home() {
   const [quizzes, setQuizzes] = useState<Quiz[]>([])
-  
+
   const handleGetQuizzes = async (search: string = '')=> {
     try {
       const response = await axios(`${process.env.NEXT_PUBLIC_BACKEND_URI}/api/quizzes/filter/${search}`); 
@@ -25,8 +25,7 @@ export default function Home() {
     const fetchData = async () => await handleGetQuizzes('');
     fetchData();
   }, []);
-
-
+  
   const MockedData = {cupsCovered: 4, topScore: '100%', totalQuestions: 4}
   const {cupsCovered, topScore, totalQuestions} = MockedData
  
