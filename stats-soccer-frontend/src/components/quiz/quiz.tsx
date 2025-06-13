@@ -59,7 +59,7 @@ export default function QuizApp({ id }: QuizAppUI) {
 
   useEffect(() => {
     handleGetQuiz();
-  }, []);
+  }, [quiz]);
 
   if (loading) {
     return <div className="text-center py-10">Carregando quiz...</div>;
