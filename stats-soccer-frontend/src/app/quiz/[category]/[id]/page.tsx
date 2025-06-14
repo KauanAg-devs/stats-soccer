@@ -10,7 +10,7 @@ export default async function QuizPage({ params }: {params: QuizParams}) {
 
   return (
     <main className="relative min-h-screen p-8">
-      <div className="absolute inset-0 bg-[url(/images/football-pitch-2.webp)] bg-cover object-center opacity-50"/>
+      <div className="absolute inset-0 bg-gradient-to-br from-green-900 via-emerald-800 to-green-900 bg-cover object-center"/>
       <Quiz id={id} />
     </main>
   );
