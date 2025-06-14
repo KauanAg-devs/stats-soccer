@@ -14,3 +14,4 @@ Route::get('/', function(){
 Route::get('/quizzes/filter/{name?}', [QuizzesController::class, 'filter']);
 Route::get('/quizzes/filter/id/{id}', [QuizzesController::class, 'filterById']);
 Route::post('/quizzes/store', [QuizzesController::class, 'store']);
+Route::delete('/quizzes/{id}', [QuizzesController::class, 'destroy']);

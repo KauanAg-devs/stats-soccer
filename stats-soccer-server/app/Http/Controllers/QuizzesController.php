@@ -7,6 +7,28 @@ use Illuminate\Http\Request;
 
 class QuizzesController extends Controller
 {
+
+    public function destroy($id) {
+        $quiz = Quiz::with('questions.options')->find($id);
+
+        if (!$quiz) {
+            return response()->json(['error' => 'Quiz not found'], 404);
+        }
+
+        try {
+            foreach ($quiz->questions as $question) {
+                $question->options()->delete();
+            }
+
+            $quiz->questions()->delete();
+            $quiz->delete();
+
+            return response()->json(['message' => 'Quiz deleted successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to delete quiz', 'details' => $e->getMessage()], 500);
+        }
+   }
+
     function filter(Request $request, $name = ''){
       $query = Quiz::with('questions.options');
 
