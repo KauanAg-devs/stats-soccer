@@ -3,7 +3,7 @@
 ````markdown
 # ⚽ Stats Soccer
 
-![Preview](https://via.placeholder.com/900x400.png?text=Preview+do+Projeto)
+![Preview](https://github.com/KauanAg-devs/stats-soccer/blob/main/.github/images/project-result.png?raw=true)
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Laravel](https://img.shields.io/badge/Backend-Laravel-red)](https://laravel.com/)
